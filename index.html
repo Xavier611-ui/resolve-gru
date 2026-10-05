@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resolve GRU — Encontre quem resolve</title>
+<meta name="description" content="Encontre profissionais e serviços em Guarulhos.">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#18202a}
+header{background:#111827;color:white;padding:18px 6%;display:flex;justify-content:space-between;align-items:center;gap:15px;position:sticky;top:0;z-index:3}
+.logo{font-size:23px;font-weight:800}.logo span{color:#38bdf8}
+nav a{color:#fff;text-decoration:none;margin-left:18px;font-size:14px}
+.hero{padding:70px 6%;background:linear-gradient(135deg,#0f172a,#164e63);color:white}
+.hero h1{font-size:42px;max-width:700px;margin:0 0 15px}.hero p{max-width:650px;font-size:18px;line-height:1.5}
+.search{background:white;padding:20px;border-radius:16px;max-width:900px;display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-top:28px}
+input,select,button{padding:14px;border-radius:10px;border:1px solid #d1d5db;font-size:15px}
+button{background:#0284c7;color:white;border:0;font-weight:700;cursor:pointer}
+section{padding:45px 6%;max-width:1200px;margin:auto}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:white;padding:22px;border-radius:16px;box-shadow:0 4px 18px #0000000d}.card h3{margin-top:5px}
+.badge{display:inline-block;background:#e0f2fe;color:#0369a1;padding:5px 9px;border-radius:20px;font-size:12px}
+.cta{background:#e0f2fe;border-radius:18px;padding:30px}.cta a{display:inline-block;margin-top:10px}
+footer{background:#111827;color:#cbd5e1;padding:30px 6%;font-size:13px}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}.modalbox{background:white;max-width:560px;width:100%;padding:25px;border-radius:18px}.close{float:right;background:#e5e7eb;color:#111}
+.notice{font-size:13px;color:#64748b;line-height:1.5}
+@media(max-width:760px){nav{display:none}.hero h1{font-size:32px}.search,.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">Resolve <span>GRU</span></div>
+<nav><a href="#servicos">Serviços</a><a href="#profissional">Sou profissional</a><a href="#como">Como funciona</a></nav>
+</header>
+
+<main>
+<section class="hero">
+<h1>Encontrou um problema? A gente ajuda a encontrar quem resolve.</h1>
+<p>O Resolve GRU conecta moradores de Guarulhos a profissionais de serviços. Esta versão não possui contatos fictícios: os profissionais serão adicionados por cadastro real.</p>
+<div class="search">
+<input id="busca" placeholder="Ex.: eletricista, pintura...">
+<select id="bairro"><option value="">Todos os bairros</option><option>Centro</option><option>Bonsucesso</option><option>Cumbica</option><option>Vila Galvão</option><option>Pimentas</option><option>Taboão</option><option>Outro bairro</option></select>
+<button onclick="buscar()">Buscar</button>
+</div>
+<p id="resultado" class="notice"></p>
+</section>
+
+<section id="servicos">
+<h2>Serviços para começar</h2>
+<div class="grid">
+<div class="card"><span class="badge">Casa</span><h3>⚡ Eletricista</h3><p>Instalações, tomadas, iluminação e manutenção.</p></div>
+<div class="card"><span class="badge">Casa</span><h3>🚿 Encanador</h3><p>Vazamentos, torneiras, tubulações e reparos.</p></div>
+<div class="card"><span class="badge">Casa</span><h3>🎨 Pintor</h3><p>Pintura residencial e pequenos reparos.</p></div>
+<div class="card"><span class="badge">Casa</span><h3>🧱 Pedreiro</h3><p>Reformas e serviços de alvenaria.</p></div>
+<div class="card"><span class="badge">Montagem</span><h3>🪑 Montador</h3><p>Montagem e desmontagem de móveis.</p></div>
+<div class="card"><span class="badge">Tecnologia</span><h3>💻 Informática</h3><p>Computadores, redes e suporte técnico.</p></div>
+</div>
+</section>
+
+<section id="como">
+<h2>Como vai funcionar</h2>
+<div class="grid">
+<div class="card"><h3>1. Cliente procura</h3><p>Escolhe o serviço e o bairro.</p></div>
+<div class="card"><h3>2. Profissional se cadastra</h3><p>Envia seus dados e informações do serviço.</p></div>
+<div class="card"><h3>3. Cliente entra em contato</h3><p>Depois da validação, o profissional poderá receber pedidos.</p></div>
+</div>
+</section>
+
+<section id="profissional">
+<div class="cta">
+<h2>Você presta algum serviço em Guarulhos?</h2>
+<p>Cadastre seu interesse para entrar na plataforma. Nesta versão, o cadastro apenas coleta os dados e não publica automaticamente um perfil.</p>
+<button onclick="abrir()">Quero ser profissional</button>
+</div>
+</section>
+</main>
+
+<footer>Resolve GRU — projeto em fase inicial. Os perfis reais só serão publicados após cadastro e validação.</footer>
+
+<div class="modal" id="modal">
+<div class="modalbox">
+<button class="close" onclick="fechar()">Fechar</button>
+<h2>Cadastro de interesse</h2>
+<p class="notice">Preencha os dados abaixo. Nesta versão eles são apenas demonstrativos no seu navegador; ainda não são enviados para um banco de dados.</p>
+<form onsubmit="salvar(event)">
+<input id="nome" required placeholder="Seu nome" style="width:100%;margin:6px 0">
+<input id="servico" required placeholder="Qual serviço você presta?" style="width:100%;margin:6px 0">
+<input id="bairro2" required placeholder="Seu bairro" style="width:100%;margin:6px 0">
+<input id="whats" required placeholder="WhatsApp com DDD" style="width:100%;margin:6px 0">
+<button style="width:100%;margin-top:8px">Cadastrar interesse</button>
+</form>
+<p id="ok"></p>
+</div></div>
+
+<script>
+function buscar(){
+ const b=document.getElementById('busca').value.trim(), bairro=document.getElementById('bairro').value;
+ document.getElementById('resultado').textContent =
+ b||bairro ? `Busca registrada: ${b||'qualquer serviço'}${bairro?' em '+bairro:''}. Os profissionais reais aparecerão aqui depois que o sistema de cadastro estiver conectado.` :
+ 'Digite um serviço ou escolha um bairro para começar.';
+}
+function abrir(){document.getElementById('modal').classList.add('open')}
+function fechar(){document.getElementById('modal').classList.remove('open')}
+function salvar(e){
+ e.preventDefault();
+ localStorage.setItem('resolve_gru_interesse',JSON.stringify({
+ nome:nome.value,servico:servico.value,bairro:bairro2.value,whats:whats.value
+ }));
+ document.getElementById('ok').textContent='Cadastro salvo apenas neste aparelho. Na próxima etapa vamos conectar isso a um banco de dados real.';
+}
+</script>
+</body>
+</html>
